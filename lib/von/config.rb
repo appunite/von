@@ -18,7 +18,11 @@ module Von
     attr_reader :currents
 
     def init!
-      @periods  = {}
+      @periods  = {
+        daily: 720,
+        monthly: 120,
+        yearly: 10
+      }
       @bests    = {}
       @currents = {}
       @totals   = {}
