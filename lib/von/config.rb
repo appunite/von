@@ -1,11 +1,13 @@
 require 'yaml'
 
+
 module Von
   module Config
     extend self
 
     attr_accessor :namespace
     attr_accessor :raise_connection_errors
+    attr_accessor :use_default_periods_for_counters
     attr_accessor :yearly_format
     attr_accessor :monthly_format
     attr_accessor :weekly_format
@@ -26,6 +28,7 @@ module Von
       self.namespace = 'von'
       # rescue Redis connection errors
       self.raise_connection_errors = false
+      self.use_default_periods_for_counters = false
       # 2013
       self.yearly_format   = '%Y'
       # 2013-01

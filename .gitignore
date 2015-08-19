@@ -18,3 +18,6 @@ tmp
 
 # RubyMine project files
 .idea
+
+.gemtags
+.tags

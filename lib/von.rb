@@ -44,10 +44,19 @@ module Von
     counter = Counters::Total.new(field)
     total   = counter.increment(value)
 
-    if config.periods_defined_for_counter?(counter)
-      periods = config.periods[counter.field]
-      Counters::Period.new(counter.field, periods).increment(value)
-    end
+    periods = if config.periods_defined_for_counter?(counter)
+        config.periods[counter.field]
+      elsif self.config.use_default_periods_for_counters
+        # quickfix to guarantee periods existence across processes
+        [
+          Period.new(:daily, 730),
+          Period.new(:weekly, 104),
+          Period.new(:monthly, 240),
+          Period.new(:yearly, 20)
+        ]
+      end
+
+    Counters::Period.new(counter.field, periods).increment(value) if periods.present?
 
     if config.bests_defined_for_counter?(counter)
       periods = config.bests[counter.field]
